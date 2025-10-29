@@ -6,6 +6,7 @@ export default function Navbar() {
       <Link href="/">Dashboard</Link>
       <Link href="/interview">Interview</Link>
       <Link href="/confidence">Confidence</Link>
+      <Link href="/stage">Stage Presence</Link>
       <Link href="/video">Video Stage</Link>
     </nav>
   );

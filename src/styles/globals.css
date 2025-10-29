@@ -14,3 +14,11 @@ input, textarea { background:#ffffff08; color:var(--text); border:1px solid var(
 
 
 
+/* Active tab styling for aria-pressed buttons (Stage Presence tabs) */
+button[aria-pressed="true"] {
+	outline: 2px solid #fff3;
+	background: #ffffff18;
+}
+
+
+
