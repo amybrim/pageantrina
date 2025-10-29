@@ -20,7 +20,11 @@ function toGeminiHistory(messages = []) {
 export default async function handler(req, res) {
   try {
     if (req.method === "GET") {
-      if (req.query.ping) return res.status(200).json({ ok: true });
+      if (req.query.ping) return res.status(200).json({ 
+        ok: true, 
+        coach: "PageantRina", 
+        env: !!process.env.GOOGLE_API_KEY 
+      });
       return res.status(405).json({ error: "Method not allowed" });
     }
 
