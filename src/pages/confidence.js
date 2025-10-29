@@ -1,23 +1,23 @@
-import { useState } from "react";
+import Arena from "../components/Arena";
 
-export default function ConfidencePage() {
-  const [level, setLevel] = useState(70);
-
+export default function Confidence() {
   return (
-    <>
-      <h1>🌸 Confidence Studio</h1>
-      <p>Adjust your confidence meter and write a quick reflection below.</p>
+    <div className="stack-lg">
+      <header className="page-header">
+        <h1>Confidence Lab</h1>
+        <p className="muted">
+          Calm body. Clear breath. Confident voice. Let's build rituals that steady your nerves and center your presence.
+        </p>
+      </header>
 
       <div className="card">
-        <label>Confidence Level: {level}%</label>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={level}
-          onChange={(e) => setLevel(e.target.value)}
+        <Arena
+          starterPrompt={`Coach a centering routine I can use backstage in 90 seconds. Include breath rhythm, posture cues, and a short mantra.`}
+          placeholder={'Ask for: "A 3-step nerves reset before I walk in."'}
         />
-        <textarea placeholder="Write your reflection or affirmation here..."></textarea>
+      </div>
+    </div>
+  );
         <button onClick={() => alert("Saved!")}>Save</button>
       </div>
     </>

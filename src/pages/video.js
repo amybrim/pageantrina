@@ -1,23 +1,30 @@
-import { useState } from "react";
+import VideoGrid from "../components/VideoGrid";
+import Arena from "../components/Arena";
 
-export default function VideoPage() {
-  const [prompt, setPrompt] = useState("");
-  const [status, setStatus] = useState("idle");
-  const [videoUrl, setVideoUrl] = useState(null);
-
-  const generate = async () => {
-    if (!prompt) return;
-    setStatus("generating");
-    // Placeholder for your future Gemini or Appy video generation
-    setTimeout(() => {
-      setVideoUrl("https://placehold.co/600x400?text=Your+AI+Video+Here");
-      setStatus("done");
-    }, 2500);
-  };
-
+export default function Video() {
   return (
-    <>
-      <h1>🎥 Video Stage</h1>
+    <div className="stack-lg">
+      <header className="page-header">
+        <h1>Video Practice</h1>
+        <p className="muted">
+          Use short prompts to rehearse on camera. Keep it warm, concise, and true to your platform.
+        </p>
+      </header>
+
+      <div className="card">
+        <Arena
+          compact
+          starterPrompt={`Give me 5 TikTok-length interview prompts (15–30s answers) and a posture cue for each.`}
+          placeholder={'Ask for: "A 20-sec answer on my platform story."'}
+        />
+      </div>
+
+      <div className="card">
+        <h2 className="section-title">Inspiration Reels</h2>
+        <VideoGrid />
+      </div>
+    </div>
+  );
       <p>Record, rehearse, or visualize your on-stage answers here. Coming soon: AI analysis of tone, pacing, and delivery!</p>
       
       <div className="card">

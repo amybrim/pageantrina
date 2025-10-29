@@ -1,23 +1,26 @@
-import { useState } from "react";
-import Arena from "@/components/Arena";
+import Arena from "../components/Arena";
 
-export default function InterviewPage() {
-  const [arena, setArena] = useState("Panel");
-  const [question, setQuestion] = useState("Tell us about yourself.");
-  const [answer, setAnswer] = useState("");
-  const [feedback, setFeedback] = useState("");
-  const [loading, setLoading] = useState(false);
+export default function Interview() {
+  return (
+    <div className="stack-lg">
+      <header className="page-header">
+        <h1>Interview Coaching</h1>
+        <p className="muted">
+          We'll craft your sparkling introduction, refine your stories, and build crisp answers that feel like you—under pressure and under lights.
+        </p>
+      </header>
 
-  async function getCoaching() {
-    try {
-      setLoading(true);
-      setFeedback("");
-      const res = await fetch("/api/coach", {
-        method: "POST",
-        headers: { "Content-Type":"application/json" },
-        body: JSON.stringify({
-          mode: arena === "Panel" ? "script" : "live",
-          text: answer || "(no answer yet)",
+      <div className="card">
+        <Arena
+          starterPrompt={`You are PageantRina. Greet me warmly and ask 3 quick questions:
+1) Which title and division am I competing in?
+2) What's one value I want judges to remember?
+3) Name a cause or achievement I'm proud of.`}
+          placeholder={'Try: "Help me write a 45-sec introduction that feels authentic."'}
+        />
+      </div>
+    </div>
+  );
           question,
           wpmTarget: 155
         })

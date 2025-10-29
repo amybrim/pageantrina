@@ -1,17 +1,45 @@
-export default function HomePage() {
-  return (
-    <>
-      <h1>👑 Welcome to PageantRina</h1>
-      <p>Your personal AI pageant coach. Choose an area above to start your crown-ready training!</p>
+import Link from "next/link";
+import Arena from "@/components/Arena";
+import VideoGrid from "@/components/VideoGrid";
 
-      <div className="card">
-        <ul>
-          <li>💬 Practice your interview in the <strong>Interview Studio</strong></li>
-          <li>🌸 Build self-belief in the <strong>Confidence Studio</strong></li>
-          <li>🎥 Rehearse delivery in the <strong>Video Stage</strong></li>
-        </ul>
-        <p>PageantRina learns your goals, gives smart feedback, and tracks your progress toward your big day.</p>
-      </div>
-    </>
+export default function Home() {
+  return (
+    <div className="stack-xl">
+      <section className="hero card halo">
+        <div className="hero-copy">
+          <h1 className="display">
+            Pageant<span className="sparkle">Rina</span>
+          </h1>
+          <p className="lead">
+            Poised guidance. Clear structure. Real practice. Step into your interview with calm confidence and a crown-ready voice.
+          </p>
+          <div className="row gap">
+            <Link className="btn btn-accent" href="/interview">Start Interview Coaching</Link>
+            <Link className="btn btn-ghost" href="/confidence">Build Confidence</Link>
+          </div>
+        </div>
+        <div className="hero-card">
+          <ul className="ticks">
+            <li>✨ 30–60s intro polishing</li>
+            <li>🎤 On-brand talking points</li>
+            <li>💫 Warm, polished delivery</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="card">
+        <h2 className="section-title">Practice Right Now</h2>
+        <Arena compact placeholder="Ask for a 30-second intro or a mock question…" />
+        <div className="row gap">
+          <Link className="chip" href="/stage">Stage Walk Drills</Link>
+          <Link className="chip" href="/video">Video Prompts</Link>
+        </div>
+      </section>
+
+      <section className="card">
+        <h2 className="section-title">Quick Inspiration</h2>
+        <VideoGrid />
+      </section>
+    </div>
   );
 }

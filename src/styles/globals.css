@@ -14,13 +14,178 @@ body{
 .container{width:min(1100px,92%); margin:0 auto; padding:24px 0; flex:1}
 .footer{border-top:1px solid var(--line); opacity:.8; padding:20px 0; text-align:center; font-size:14px}
 
-
-
-/* Active tab styling for aria-pressed buttons (Stage Presence tabs) */
-button[aria-pressed="true"] {
-	outline: 2px solid #fff3;
-	background: #ffffff18;
+.sparkle {
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--gold));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+  background-size: 200% 100%;
 }
 
+@keyframes shimmer {
+  from { background-position: 0% 50%; }
+  to { background-position: 100% 50%; }
+}
 
+/* Spacing utilities */
+.stack-xl { display: flex; flex-direction: column; gap: 48px; }
+.stack-lg { display: flex; flex-direction: column; gap: 32px; }
+.row { display: flex; align-items: center; }
+.gap { gap: 16px; }
 
+/* Card and hero styles */
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  padding: 48px;
+}
+
+.hero-copy {
+  max-width: 580px;
+}
+
+.hero.halo {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero.halo::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(circle at 50% 50%, var(--halo), transparent 70%);
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+/* Typography */
+.display {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0 0 16px;
+}
+
+.lead {
+  font-size: 1.25rem;
+  margin: 0 0 24px;
+  opacity: 0.9;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin: 0 0 20px;
+  font-weight: 600;
+}
+
+.muted {
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Button and link styles */
+.btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.btn-accent:hover {
+  background: color-mix(in srgb, var(--accent) 90%, white);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.15);
+  transform: translateY(-1px);
+}
+
+.chip {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.08);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.chip:hover {
+  background: rgba(255,255,255,0.12);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* List styles */
+.ticks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.ticks li {
+  margin-bottom: 12px;
+}
+
+/* Component styles */
+.hero-card {
+  background: rgba(255,255,255,0.03);
+  padding: 24px 32px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  align-self: center;
+}
+
+/* Active tab styling */
+button[aria-pressed="true"] {
+  outline: 2px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 32px;
+    gap: 32px;
+  }
+  
+  .hero-copy {
+    max-width: none;
+  }
+  
+  .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .btn, .chip {
+    text-align: center;
+  }
+}

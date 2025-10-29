@@ -19,25 +19,62 @@ export default function Arena({ arena, onSwitch, children }) {
   }, [arena]);
 
   return (
-    <div style={{ position:"relative", borderRadius:16, overflow:"hidden", marginBottom: 16 }}>
+    <div className="arena" style={{ position:"relative", borderRadius:"var(--radius-lg)", overflow:"hidden", marginBottom: "var(--space-4)" }}>
       <div style={{ background: theme.bg, height: 200, position: "relative" }}>
         <div style={{ position:"absolute", inset:0, background: theme.overlay }} />
-        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"flex-end", padding:"16px 20px", gap:12 }}>
-          <div style={{ color:"#fff" }}>
-            <div style={{ fontWeight:700, fontSize:22 }}>{theme.title}</div>
-            <div style={{ opacity:0.9, marginTop:2 }}>{theme.subtitle}</div>
+        <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"flex-end", padding:"var(--space-4) var(--space-5)", gap:"var(--space-3)" }}>
+          <div style={{ color:"var(--color-white)" }}>
+            <div style={{ fontWeight:"var(--font-bold)", fontSize:"var(--text-xl)" }}>{theme.title}</div>
+            <div style={{ opacity:0.9, marginTop:"var(--space-1)" }}>{theme.subtitle}</div>
           </div>
-          <div style={{ marginLeft:"auto", display:"flex", gap:8 }}>
+          <div style={{ marginLeft:"auto", display:"flex", gap:"var(--space-2)" }}>
             {onSwitch && (
               <>
-                <button onClick={() => onSwitch("Panel")} aria-pressed={arena==="Panel"}>Panel</button>
-                <button onClick={() => onSwitch("OnStage")} aria-pressed={arena==="OnStage"}>On-Stage</button>
+                <button 
+                  className="arena-button" 
+                  onClick={() => onSwitch("Panel")} 
+                  aria-pressed={arena==="Panel"}
+                  style={{ 
+                    background: arena==="Panel" ? "var(--color-accent)" : "var(--color-surface-overlay)",
+                    color: "var(--color-white)",
+                    border: "1px solid " + (arena==="Panel" ? "var(--color-accent-border)" : "var(--color-border)"),
+                    padding: "var(--space-2) var(--space-3)",
+                    borderRadius: "var(--radius-sm)",
+                    fontWeight: "var(--font-medium)",
+                    transition: "all 0.2s"
+                  }}
+                >
+                  Panel
+                </button>
+                <button 
+                  className="arena-button"
+                  onClick={() => onSwitch("OnStage")} 
+                  aria-pressed={arena==="OnStage"}
+                  style={{ 
+                    background: arena==="OnStage" ? "var(--color-accent)" : "var(--color-surface-overlay)",
+                    color: "var(--color-white)",
+                    border: "1px solid " + (arena==="OnStage" ? "var(--color-accent-border)" : "var(--color-border)"),
+                    padding: "var(--space-2) var(--space-3)",
+                    borderRadius: "var(--radius-sm)",
+                    fontWeight: "var(--font-medium)",
+                    transition: "all 0.2s"
+                  }}
+                >
+                  On-Stage
+                </button>
               </>
             )}
           </div>
         </div>
       </div>
-      <div className="card">{children}</div>
+      <div className="card" style={{ 
+        background: "var(--color-surface)",
+        borderRadius: "var(--radius-lg)",
+        boxShadow: "var(--shadow-lg)",
+        padding: "var(--space-4)"
+      }}>
+        {children}
+      </div>
     </div>
   );
 }
