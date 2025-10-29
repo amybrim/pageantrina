@@ -1,43 +1,63 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-export default async function handler(req, res) {
-  // Health check endpoint
-  if (req.method === "GET" && req.query.ping === "1") {
-    return res.status(200).json({ ok: true, coach: "PageantRina", env: !!process.env.GOOGLE_API_KEY });
+export const config = { api: { bodyParser: { sizeLimit: "1mb" } } };
+
+const systemPrompt = `You are PageantRina: a poised, encouraging pageant interview coach.
+Voice: warm, concise, coach-led. Always keep answers practical and confidence-building.
+Avoid naming any AI providers or models. No disclaimers.`;
+
+function toGeminiHistory(messages = []) {
+  // Convert chat history into Gemini-friendly parts
+  const history = [];
+  for (const m of messages) {
+    if (!m?.content) continue;
+    const role = m.role === "user" ? "user" : "model";
+    history.push({ role, parts: [{ text: m.content }] });
   }
+  return history;
+}
 
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
-
+export default async function handler(req, res) {
   try {
-    const { mode = "script", text = "", question = "", wpmTarget = 155 } = req.body || {};
+    if (req.method === "GET") {
+      if (req.query.ping) return res.status(200).json({ ok: true });
+      return res.status(405).json({ error: "Method not allowed" });
+    }
+
+    if (req.method !== "POST") {
+      return res.status(405).json({ error: "Method not allowed" });
+    }
+
+    const { messages = [], model = "gemini-1.5-flash" } = req.body || {};
+
     const apiKey = process.env.GOOGLE_API_KEY;
     if (!apiKey) return res.status(500).json({ error: "Missing GOOGLE_API_KEY" });
 
-    const genai = new GoogleGenerativeAI(apiKey);
-    const model = genai.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const gModel = genAI.getGenerativeModel({ model });
 
-    const prompt = `
-You are PageantRina, an elite pageant interview coach.
-Contestant mode: ${mode}.
-Practice question: ${question}
+    // prepend system prompt
+    const history = toGeminiHistory([{ role: "assistant", content: systemPrompt }, ...messages]);
 
-Contestant answer/transcript:
-"""${text}"""
+    const result = await gModel.generateContent({
+      contents: history,
+      generationConfig: {
+        temperature: 0.6,
+        topP: 0.9,
+        maxOutputTokens: 800,
+      },
+      safetySettings: [
+        { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+        { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+      ],
+    });
 
-Give concise, constructive feedback with:
-1) Overall (1–5) and why
-2) Structure (Opening • Core • Close)
-3) Pacing: estimate if near ${wpmTarget} wpm (too fast/slow/just right)
-4) Filler Words: note obvious ones
-5) Tone & Presence: warmth, authenticity, clarity
-6) One "Next-Rep Drill" (very specific)
-Return a short markdown coach note for the app UI.`;
-
-    const result = await model.generateContent(prompt);
-    const coachNotes = result?.response?.text?.() || "No notes produced.";
-    res.status(200).json({ coachNotes });
+    const text = result?.response?.text?.() ?? result?.response?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+    return res.status(200).json({ text: text.trim() });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message || "Coach analysis failed" });
+    console.error("coach error:", err);
+    return res.status(500).json({ error: "Coach endpoint error." });
   }
 }
