@@ -9,7 +9,6 @@ export default async function handler(req, res) {
     if (!apiKey) return res.status(500).json({ error: "Missing GOOGLE_API_KEY" });
 
     const genai = new GoogleGenerativeAI(apiKey);
-    // Use a fast general model name available in your AI Studio project.
     const model = genai.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `

@@ -5,13 +5,13 @@ export default function InterviewPage() {
   const [arena, setArena] = useState("Panel");
   const [question, setQuestion] = useState("Tell us about yourself.");
   const [answer, setAnswer] = useState("");
-  const [analysis, setAnalysis] = useState("");
+  const [feedback, setFeedback] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function analyze() {
+  async function getCoaching() {
     try {
       setLoading(true);
-      setAnalysis("");
+      setFeedback("");
       const res = await fetch("/api/coach", {
         method: "POST",
         headers: { "Content-Type":"application/json" },
@@ -23,10 +23,10 @@ export default function InterviewPage() {
         })
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Analysis failed");
-      setAnalysis(data.coachNotes || JSON.stringify(data, null, 2));
+      if (!res.ok) throw new Error(data.error || "Unable to provide feedback");
+      setFeedback(data.coachNotes || JSON.stringify(data, null, 2));
     } catch (e) {
-      setAnalysis("Error: " + e.message);
+      setFeedback("Coaching unavailable: " + e.message);
     } finally {
       setLoading(false);
     }
@@ -54,11 +54,11 @@ export default function InterviewPage() {
                   onChange={e=>setAnswer(e.target.value)}
                 />
                 <div style={{marginTop:8, display:"flex", gap:8}}>
-                  <button onClick={analyze} disabled={loading}>{loading?"Analyzing…":"Analyze with Gemini"}</button>
+                  <button onClick={getCoaching} disabled={loading}>{loading?"PageantRina is coaching...":"Get PageantRina's Feedback"}</button>
                 </div>
               </div>
             </div>
-            {analysis && (
+            {feedback && (
               <div className="card" style={{marginTop:12, whiteSpace:"pre-wrap"}}>{analysis}</div>
             )}
           </>
@@ -73,9 +73,9 @@ export default function InterviewPage() {
             <div className="card">
               <div className="kicker">Live Answer (quick draft or transcript)</div>
               <textarea rows={6} placeholder="Paste or jot your spoken answer…" value={answer} onChange={e=>setAnswer(e.target.value)} />
-              <div style={{marginTop:8, display:"flex", gap:8}}>
-                <button onClick={analyze} disabled={loading}>{loading?"Scoring…":"Scorecard"}</button>
-              </div>
+                <div style={{marginTop:8, display:"flex", gap:8}}>
+                  <button onClick={analyze} disabled={loading}>{loading?"Coaching...":"Get PageantRina's Feedback"}</button>
+                </div>
             </div>
             {analysis && (
               <div className="card" style={{marginTop:12, whiteSpace:"pre-wrap"}}>{analysis}</div>
