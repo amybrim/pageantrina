@@ -1,6 +1,11 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default async function handler(req, res) {
+  // Health check endpoint
+  if (req.method === "GET" && req.query.ping === "1") {
+    return res.status(200).json({ ok: true, coach: "PageantRina", env: !!process.env.GOOGLE_API_KEY });
+  }
+
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   try {
