@@ -18,8 +18,4 @@ export default function Confidence() {
       </div>
     </div>
   );
-        <button onClick={() => alert("Saved!")}>Save</button>
-      </div>
-    </>
-  );
 }
