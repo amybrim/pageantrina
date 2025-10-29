@@ -1,4 +1,4 @@
-import Arena from "../components/Arena";
+import Arena from "@/components/Arena";
 
 export default function Interview() {
   return (
@@ -21,6 +21,7 @@ export default function Interview() {
       </div>
     </div>
   );
+}
           question,
           wpmTarget: 155
         })
