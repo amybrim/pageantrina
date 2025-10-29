@@ -1,9 +1,17 @@
-export default function Home() {
+export default function HomePage() {
   return (
-    <div style={{fontFamily: 'system-ui, sans-serif', textAlign: 'center', padding: '4rem'}}>
+    <>
       <h1>👑 Welcome to PageantRina</h1>
-      <p>The world’s first AI-powered Pageant Coach</p>
-      <p>Dashboard, Interview, Confidence & Stage modules coming soon!</p>
-    </div>
+      <p>Your personal AI pageant coach. Choose an area above to start your crown-ready training!</p>
+
+      <div className="card">
+        <ul>
+          <li>💬 Practice your interview in the <strong>Interview Studio</strong></li>
+          <li>🌸 Build self-belief in the <strong>Confidence Studio</strong></li>
+          <li>🎥 Rehearse delivery in the <strong>Video Stage</strong></li>
+        </ul>
+        <p>PageantRina learns your goals, gives smart feedback, and tracks your progress toward your big day.</p>
+      </div>
+    </>
   );
 }
