@@ -3,7 +3,7 @@ import VideoGrid from "@/components/VideoGrid";
 import WalkingDrills from "@/components/WalkingDrills";
 
 export default function StagePresencePage() {
-  const [tab, setTab] = useState("walking");
+  const [tab, setTab] = useState("Walking");
 
   const videos = [
     { title: "Walk Flow: Entrance → Center → Exit", desc: "Map the stage and keep your pace queen-level calm." },
@@ -15,9 +15,9 @@ export default function StagePresencePage() {
     <>
       <h1>🌟 Stage Presence</h1>
       <div className="card" style={{display:"flex",gap:8}}>
-        <button onClick={()=>setTab("walking")} aria-pressed={tab==="walking"}>Walking</button>
-        <button onClick={()=>setTab("styling")} aria-pressed={tab==="styling"}>Wardrobe & Styling</button>
-        <button onClick={()=>setTab("confidence")} aria-pressed={tab==="confidence"}>Confidence Cues</button>
+        <button onClick={()=>setTab("Walking")} aria-pressed={tab==="Walking"}>Walking</button>
+        <button onClick={()=>setTab("Wardrobe")} aria-pressed={tab==="Wardrobe"}>Wardrobe & Styling</button>
+        <button onClick={()=>setTab("Confidence")} aria-pressed={tab==="Confidence"}>Confidence Cues</button>
       </div>
 
       {tab==="walking" && (
